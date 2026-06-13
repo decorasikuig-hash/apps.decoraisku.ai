@@ -1,3 +1,4 @@
+# Deploy to Hostinger via FTP for apps.decorasiku.com
 name: Deploy to Hostinger via FTP
 
 on:
@@ -29,9 +30,9 @@ jobs:
     - name: 📂 Unggah ke Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ${{ secrets.FTP_SERVER || vars.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME || vars.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD || vars.FTP_PASSWORD }}
         port: 21
         local-dir: ./dist/
         server-dir: /public_html/apps/
