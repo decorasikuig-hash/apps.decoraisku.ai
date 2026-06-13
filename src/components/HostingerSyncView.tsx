@@ -28,6 +28,13 @@ export const HostingerSyncView: React.FC<HostingerSyncViewProps> = ({
   const [apiUrl, setApiUrl] = useState(settings.hostingerApiUrl || './api.php');
   const [autoPush, setAutoPush] = useState(settings.hostingerAutoPush || false);
 
+  // Sync inputs with settings prop updates
+  useEffect(() => {
+    setSyncEnabled(settings.hostingerSyncEnabled || false);
+    setApiUrl(settings.hostingerApiUrl || './api.php');
+    setAutoPush(settings.hostingerAutoPush || false);
+  }, [settings.hostingerSyncEnabled, settings.hostingerApiUrl, settings.hostingerAutoPush]);
+
   // States
   const [checking, setChecking] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<'DISCONNECTED' | 'CONNECTED_JSON' | 'CONNECTED_MYSQL' | 'ERROR'>('DISCONNECTED');
@@ -114,8 +121,12 @@ export const HostingerSyncView: React.FC<HostingerSyncViewProps> = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dbState)
       });
+      if (!res.ok) {
+         console.error(`Failed to push state to ${apiUrl}: ${res.status} ${res.statusText}`);
+         throw new Error(`Server returned ${res.status}`);
+      }
       const contentType = res.headers.get("content-type") || "";
-      if (!res.ok || (contentType && !contentType.includes("application/json"))) {
+      if (contentType && !contentType.includes("application/json")) {
         throw new Error("Respons server bukan JSON yang valid.");
       }
       const text = await res.text();

@@ -274,8 +274,8 @@ export const getDBState = (): DBState => {
             changed = true;
           }
         } else {
-          // Keep local preferences or disable by default
-          if (settings.hostingerSyncEnabled !== false) {
+          // Keep local preferences or set default if never defined
+          if (settings.hostingerSyncEnabled === undefined) {
             settings.hostingerSyncEnabled = false;
             settings.hostingerAutoPush = false;
             changed = true;
@@ -486,7 +486,7 @@ export const saveCollection = <K extends keyof DBState>(key: K, data: DBState[K]
     }
   } catch (e) {}
 
-  if (isFirebaseEnabled && !isProductionHosting() && !hostingerEnabledTemp) {
+  if (isFirebaseEnabled && !isProductionHosting() && (!hostingerEnabledTemp || key === 'settings')) {
     try {
       if (auth.currentUser) {
         if (key === 'settings') {

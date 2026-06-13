@@ -160,6 +160,23 @@ export default function App() {
     };
   }, []);
 
+  // Coordinate real-time listeners for Hostinger vs Firestore
+  useEffect(() => {
+    if (!isFirebaseEnabled || !firebaseUser) return;
+    const isHostingerOn = dbState.settings?.hostingerSyncEnabled;
+    if (isHostingerOn) {
+      console.log("Hostinger Sync is active. Stopping Firestore real-time sync listener...");
+      stopRealtimeSync();
+    } else {
+      console.log("Hostinger Sync is inactive. Restarting Firestore real-time sync listener...");
+      try {
+        startRealtimeSyncFromFirestore();
+      } catch (e) {
+        console.warn("Could not restart Firestore sync listener:", e);
+      }
+    }
+  }, [dbState.settings?.hostingerSyncEnabled, firebaseUser]);
+
   // WhatsApp alerts list
   const [waPopups, setWaPopups] = useState<Array<{ id: number; phone: string; message: string; name: string }>>([]);
   const [appToast, setAppToast] = useState<{ message: string; type: 'success' | 'info' | 'error' } | null>(null);
@@ -284,8 +301,12 @@ export default function App() {
       if (!isSilent) setHostingerSyncState('syncing');
       try {
         const response = await fetch(`${apiUrl}?action=get_state`);
+        if (!response.ok) {
+           console.error(`Failed to fetch state from ${apiUrl}: ${response.status} ${response.statusText}`);
+           throw new Error(`Server returned ${response.status}`);
+        }
         const contentType = response.headers.get("content-type") || "";
-        if (!response.ok || (contentType && !contentType.includes("application/json"))) {
+        if (contentType && !contentType.includes("application/json")) {
           throw new Error("Returned content is not valid JSON");
         }
         const resText = await response.text();
