@@ -22,7 +22,7 @@ jobs:
         cache: 'npm'
 
     - name: 📦 Install Dependensi
-      run: npm ci
+      run: npm install
 
     - name: 🏗️ Build Aplikasi
       run: npm run build
@@ -35,5 +35,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
         local-dir: ./dist/
-        server-dir: /public_html/apps/
+        server-dir: public_html/apps/
         dangerous-clean-slate: false
