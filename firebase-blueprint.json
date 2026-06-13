@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "InventoryItem": {
+      "title": "InventoryItem",
+      "description": "Item of inventory in warehouse",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "stock": { "type": "number" },
+        "unit": { "type": "string" },
+        "price": { "type": "number" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "lastUpdated": { "type": "string" }
+      },
+      "required": ["id", "name", "category", "stock"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Interior design project",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "clientName": { "type": "string" },
+        "location": { "type": "string" },
+        "status": { "type": "string" },
+        "budget": { "type": "number" },
+        "totalCost": { "type": "number" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["id", "name", "clientName", "status"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Company personnel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nip": { "type": "string" },
+        "role": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "string" },
+        "nfcUid": { "type": "string" }
+      },
+      "required": ["id", "name", "nip", "role"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "type": { "type": "string" },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "account": { "type": "string" },
+        "projectId": { "type": "string" }
+      },
+      "required": ["id", "code", "type", "amount", "date"]
+    },
+    "Equipment": {
+      "title": "Equipment",
+      "description": "Woodworking machinery and tools",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "brand": { "type": "string" },
+        "serial_number": { "type": "string" },
+        "power_specs": { "type": "string" },
+        "condition_status": { "type": "string" },
+        "loan_status": { "type": "string" },
+        "photo_path": { "type": "string" },
+        "photoUrl": { "type": "string" }
+      },
+      "required": ["id", "code", "name", "category", "brand", "condition_status", "loan_status"]
+    },
+    "ToolLoan": {
+      "title": "ToolLoan",
+      "description": "Woodworking tools loan log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "loan_code": { "type": "string" },
+        "tool_id": { "type": "string" },
+        "craftsman_employee_id": { "type": "string" },
+        "pic_gudang_id": { "type": "string" },
+        "project_name": { "type": "string" },
+        "loan_date": { "type": "string" },
+        "actual_return_date": { "type": "string" },
+        "notes_loan": { "type": "string" },
+        "notes_return": { "type": "string" },
+        "loan_status": { "type": "string" }
+      },
+      "required": ["id", "loan_code", "tool_id", "craftsman_employee_id", "pic_gudang_id", "loan_date", "loan_status"]
+    }
+  },
+  "firestore": {
+    "/inventory/{itemId}": {
+      "schema": "InventoryItem",
+      "description": "Gudang inventory collections"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Interior design projects tracking"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Personnel registry"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Company ledger"
+    },
+    "/equipments/{id}": {
+      "schema": "Equipment",
+      "description": "Woodworking tools registry"
+    },
+    "/toolLoans/{id}": {
+      "schema": "ToolLoan",
+      "description": "Peminjaman woodworking tools registry"
+    }
+  }
+}

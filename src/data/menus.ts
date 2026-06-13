@@ -1,0 +1,293 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Role, InventoryItem, Project, Employee, Transaction } from '../types';
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  description: string;
+  iconName: string; // Dynamic mapping to Lucide Icons
+  allowedRoles: Role[];
+}
+
+export const ERP_MENUS: MenuItem[] = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard Utama',
+    description: 'Ringkasan performa bisnis, statistik proyek, & notifikasi real-time.',
+    iconName: 'LayoutDashboard',
+    allowedRoles: ['super_admin', 'admin', 'staff', 'accounting', 'karyawan'],
+  },
+  {
+    id: 'projects',
+    label: 'Proyek Interior',
+    description: 'Kelola desain, cetak biru (blueprint), timeline, dan estimasi biaya RAB.',
+    iconName: 'Home',
+    allowedRoles: ['super_admin', 'admin', 'staff', 'accounting', 'karyawan'],
+  },
+  {
+    id: 'inventory',
+    label: 'Inventori Barang',
+    description: 'Manajemen material, furnitur kustom, pencarian barcode, dan stok gudang.',
+    iconName: 'Package',
+    allowedRoles: ['super_admin', 'admin', 'staff', 'accounting', 'karyawan'],
+  },
+  {
+    id: 'employees',
+    label: 'Sumber Daya & Absensi',
+    description: 'Manajemen data desainer/karyawan, hak akses, dan log absensi NFC/Biometrik.',
+    iconName: 'Users',
+    allowedRoles: ['super_admin', 'admin', 'karyawan'],
+  },
+  {
+    id: 'accounting',
+    label: 'Accounting & Keuangan',
+    description: 'Pencatatan kas masuk/keluar, invoice klien, payroll staf, dan laporan laba-rugi.',
+    iconName: 'Receipt',
+    allowedRoles: ['super_admin', 'accounting'],
+  },
+  {
+    id: 'drive',
+    label: 'Cloud Drive (Google)',
+    description: 'Akses cetak biru (blueprint), foto proyek, & RAB langsung dari Google Drive Anda.',
+    iconName: 'Cloud',
+    allowedRoles: ['super_admin', 'admin', 'staff', 'accounting'],
+  },
+  {
+    id: 'gmail',
+    label: 'Email Inbox (Gmail)',
+    description: 'Kirim, terima, dan kelola pertukaran email dengan klien atau supplier material.',
+    iconName: 'Mail',
+    allowedRoles: ['super_admin', 'admin', 'staff', 'accounting'],
+  },
+  {
+    id: 'settings',
+    label: 'Konfigurasi Sistem',
+    description: 'Token API WhatsApp Fonnte, simulasi biometrik, info perusahaan, & database.',
+    iconName: 'Settings',
+    allowedRoles: ['super_admin', 'admin', 'accounting'],
+  },
+];
+
+// Seed Data for Automatic Database Initialization/Migrator
+export const INITIAL_INVENTORY: InventoryItem[] = [
+  {
+    id: 'brg-1',
+    code: '899123456781',
+    name: 'Sofa Minimalis Chesterfield 3-Seater',
+    category: 'Furnitur Utama',
+    stock: 12,
+    unit: 'Unit',
+    price: 18500000,
+    location: 'Gudang Pusat A',
+    description: 'Sofa kulit sintetis premium warna beige dengan rangka kayu jati solid.',
+    lastUpdated: '2026-06-01',
+  },
+  {
+    id: 'brg-2',
+    code: '899123456782',
+    name: 'Meja Makan Solid Oak Wood Round',
+    category: 'Furnitur Utama',
+    stock: 5,
+    unit: 'Unit',
+    price: 12400000,
+    location: 'Gudang Pusat A',
+    description: 'Meja makan lingkaran diameter 120cm, finising natural matte anti-rayap.',
+    lastUpdated: '2026-06-02',
+  },
+  {
+    id: 'brg-3',
+    code: '899123456783',
+    name: 'Lampu Gantung Nordic Sleek Brass Pendant',
+    category: 'Pencahayaan',
+    stock: 25,
+    unit: 'Pcs',
+    price: 2750000,
+    location: 'Gudang Aksesoris B',
+    description: 'Pendant light minimalis kuningan dengan bohlam LED Edison hangat 4W.',
+    lastUpdated: '2026-06-02',
+  },
+  {
+    id: 'brg-4',
+    code: '899123456784',
+    name: 'Wallpaper Vinyl Tekstur Kain Premium Gray',
+    category: 'Dekorasi Dinding',
+    stock: 80,
+    unit: 'Roll',
+    price: 450000,
+    location: 'Gudang Aksesoris B',
+    description: 'Wallpaper anti-lembab tekstur linen abu-abu, ukuran 0.53m x 10m per roll.',
+    lastUpdated: '2026-05-28',
+  },
+  {
+    id: 'brg-5',
+    code: '899123456785',
+    name: 'Lantai Panel SPC (Stone Plastic Composite) Oak',
+    category: 'Lantai / Flooring',
+    stock: 150,
+    unit: 'Box',
+    price: 680000,
+    location: 'Gudang Bahan Dasar C',
+    description: 'Ketebalan 5mm dengan ulu peredam benturan IXPE 1.5mm, bermotif serat kayu hangat.',
+    lastUpdated: '2026-05-30',
+  },
+];
+
+export const INITIAL_PROJECTS: Project[] = [
+  {
+    id: 'prj-1',
+    name: 'Penthouse Kemang Mansion - Suite B',
+    clientName: 'Ir. Handoko Wijaya',
+    location: 'Jakarta Selatan',
+    status: 'Execution',
+    budget: 450000000,
+    totalCost: 320000000,
+    startDate: '2026-04-10',
+    endDate: '2026-07-15',
+    description: 'Renovasi interior lantai atas penthouse berkonsep modern luxury industrial dengan sentuhan kayu walnut dan instalasi smart lighting.',
+  },
+  {
+    id: 'prj-2',
+    name: 'Showroom Batik Premium Heritage',
+    clientName: 'Ibu Ratna Sekar',
+    location: 'Yogyakarta',
+    status: 'Design',
+    budget: 280000000,
+    totalCost: 45000000,
+    startDate: '2026-05-20',
+    endDate: '2026-08-30',
+    description: 'Perencanaan interior butik batik bertema tradisional Jawa-Modern minimalis yang menekankan pencahayaan fungsional untuk galeri kain.',
+  },
+  {
+    id: 'prj-3',
+    name: 'Office Space GoInnovate HQ',
+    clientName: 'PT Teknologi Digital Indonesia',
+    location: 'BSD City, Tangerang',
+    status: 'Sourcing',
+    budget: 850000000,
+    totalCost: 180000000,
+    startDate: '2026-05-01',
+    endDate: '2026-09-10',
+    description: 'Desain kolaboratif untuk area kerja modern open-space dengan integrasi ruang pod fokus, kantin hijau, dan ruang meeting canggih.',
+  },
+  {
+    id: 'prj-4',
+    name: 'Villa Sanur Serenity Resort',
+    clientName: 'Winston Croft Ltd',
+    location: 'Denpasar, Bali',
+    status: 'Planning',
+    budget: 1200000000,
+    totalCost: 10000000,
+    startDate: '2026-07-01',
+    endDate: '2026-12-15',
+    description: 'Proyek desain villa pesisir dengan arsitektur biophilic, mebel rotan buatan pengrajin lokal Bali, dan lantai batu alam eksklusif.',
+  },
+];
+
+export const INITIAL_EMPLOYEES: Employee[] = [
+  {
+    id: 'emp-1',
+    name: 'Reza Mahendra',
+    nip: 'INT-3001',
+    role: 'Principal Architect & Director',
+    phone: '081234567890',
+    email: 'reza@interiorcompany.com',
+    status: 'Aktif',
+    nfcUid: '04:2B:A1:EC',
+  },
+  {
+    id: 'emp-2',
+    name: 'Sherly Anastasya',
+    nip: 'INT-3002',
+    role: 'Senior Interior Designer',
+    phone: '082345678901',
+    email: 'sherly@interiorcompany.com',
+    status: 'Aktif',
+    nfcUid: '05:AC:2F:88',
+  },
+  {
+    id: 'emp-3',
+    name: 'Deni Setiawan',
+    nip: 'INT-3003',
+    role: 'Project Estimator (RAB)',
+    phone: '083456789012',
+    email: 'deni@interiorcompany.com',
+    status: 'Aktif',
+    nfcUid: '12:B4:EF:9D',
+  },
+  {
+    id: 'emp-4',
+    name: 'Melinda Putri',
+    nip: 'INT-3004',
+    role: 'Chief Accountant & Financial Officer',
+    phone: '085678901234',
+    email: 'melinda@interiorcompany.com',
+    status: 'Aktif',
+    nfcUid: 'F8:54:C1:2A',
+  },
+  {
+    id: 'emp-5',
+    name: 'Feri Irawan',
+    nip: 'INT-3005',
+    role: 'Site Construction Staff',
+    phone: '086789012345',
+    email: 'feri@interiorcompany.com',
+    status: 'Aktif',
+    nfcUid: 'D9:3E:AA:74',
+  },
+];
+
+export const INITIAL_TRANSACTIONS: Transaction[] = [
+  {
+    id: 'trx-1',
+    code: 'TRX-20260601-001',
+    type: 'Income',
+    category: 'DP 1 Proyek Client',
+    amount: 150000000,
+    date: '2026-06-01',
+    description: 'Pembayaran termin pertama DP 30% untuk Penthouse Kemang Mansion.',
+    projectId: 'prj-1',
+  },
+  {
+    id: 'trx-2',
+    code: 'TRX-20260601-002',
+    type: 'Expense',
+    category: 'Pembelian Material',
+    amount: 45000000,
+    date: '2026-06-01',
+    description: 'Pembelian lantai SPC Oak sebanyak 60 box dari supplier utama.',
+    projectId: 'prj-1',
+  },
+  {
+    id: 'trx-3',
+    code: 'TRX-20260602-001',
+    type: 'Income',
+    category: 'Kontrak Desain',
+    amount: 45000000,
+    date: '2026-06-02',
+    description: 'Pelunasan fee desain untuk Showroom Batik Yogyakarta.',
+    projectId: 'prj-2',
+  },
+  {
+    id: 'trx-4',
+    code: 'TRX-20260602-002',
+    type: 'Expense',
+    category: 'Sewa Alat & Konsumsi',
+    amount: 3500000,
+    date: '2026-06-02',
+    description: 'Sewa scaffolding keliling dan biaya katering tukang site Kemang.',
+    projectId: 'prj-1',
+  },
+  {
+    id: 'trx-5',
+    code: 'TRX-20260603-001',
+    type: 'Expense',
+    category: 'Gaji Bulanan Staf',
+    amount: 55000000,
+    date: '2026-06-01',
+    description: 'Payroll bulanan periode Mei untuk 10 orang staf kantor pusat.',
+  },
+];

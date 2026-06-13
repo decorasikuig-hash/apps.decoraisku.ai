@@ -1,0 +1,10 @@
+{
+  "name": "ERP Perusahaan Interior",
+  "description": "Enterprise Resource Planning (ERP) khusus untuk perusahaan interior dengan fitur login multi-role, CRUD lengkap, pencarian barang via barcode, absensi NFC, integrasi notifikasi WhatsApp via Fonnte, modul accounting, manajer karyawan, sistem migrasi data otomatis, serta integrasi Google Drive \u0026 Gmail untuk kolaborasi dokumen dan pengiriman draf formal.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,38 @@
+name: Deploy to Hostinger via FTP
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  web-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Ambil Kode Terbaru (Checkout)
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 📦 Install Dependensi
+      run: npm ci
+
+    - name: 🏗️ Build Aplikasi
+      run: npm run build
+
+    - name: 📂 Unggah ke Hostinger via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 21
+        local-dir: ./dist/
+        server-dir: /public_html/apps/
+        dangerous-clean-slate: false
