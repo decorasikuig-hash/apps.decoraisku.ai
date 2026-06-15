@@ -35,7 +35,6 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
-        passive: true
         local-dir: ./dist/
         server-dir: public_html/apps/
         dangerous-clean-slate: true
