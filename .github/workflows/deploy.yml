@@ -28,12 +28,13 @@ jobs:
     - name: 🏗️ Build Aplikasi
       run: npm run build
 
-    - name: 📂 Unggah ke Hostinger via SFTP
-      uses: appleboy/scp-action@v0.1.7
+    - name: 📂 Unggah ke Hostinger via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        host: ${{ secrets.FTP_SERVER }}
+        server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        port: 65002
-        source: "dist/*"
-        target: "public_html/apps/"
+        protocol: ftps
+        local-dir: ./dist/
+        server-dir: public_html/apps/
+        dangerous-clean-slate: true
