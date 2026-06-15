@@ -39,3 +39,4 @@ jobs:
         server-dir: public_html/apps/
         dangerous-clean-slate: false
         security: loose
+ 
