@@ -37,5 +37,5 @@ jobs:
         protocol: ftp
         secure: false
         local-dir: ./dist/
-        server-dir: public_html/apps/
+        server-dir: /public_html/apps/
         dangerous-clean-slate: true
