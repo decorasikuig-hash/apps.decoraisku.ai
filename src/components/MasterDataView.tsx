@@ -1750,7 +1750,10 @@ export const MasterDataView: React.FC<MasterDataViewProps> = ({
                         <div className="absolute top-3 right-3 z-10">
                            <button 
                             type="button"
-                            onClick={() => setActiveDropdownId(activeDropdownId === v.id ? null : v.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveDropdownId(activeDropdownId === v.id ? null : v.id);
+                            }}
                             className="bg-white/90 backdrop-blur p-1.5 rounded-lg shadow-sm border border-slate-200 text-slate-600 hover:text-indigo-600"
                            >
                              <MoreHorizontal className="w-4 h-4" />
@@ -1886,54 +1889,60 @@ export const MasterDataView: React.FC<MasterDataViewProps> = ({
                         <div className="space-y-3 pt-3 border-t border-slate-100">
                           {/* High-priority action buttons */}
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            <button
-                              onClick={() => {
-                                setSelectedVehicle(v);
-                                setPajakForm({
-                                  payDate: new Date().toISOString().split('T')[0],
-                                  amount: '',
-                                  payerId: v.picId || '',
-                                  bankAccount: 'Kas Bank',
-                                  receiptPhoto: ''
-                                });
-                                setPajakModalOpen(true);
-                              }}
-                              className="flex items-center justify-center gap-2 bg-[#2563eb] text-white rounded-xl py-3 px-5 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-500/20 border-none cursor-pointer"
-                            >
-                              <DollarSign className="w-3.5 h-3.5" /> Bayar Pajak
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSelectedVehicle(v);
-                                setServiceForm({
-                                  serviceDate: new Date().toISOString().split('T')[0],
-                                  kmService: '',
-                                  amount: '',
-                                  servicerId: v.picId || '',
-                                  bankAccount: 'Kas Bank',
-                                  nextServiceDate: '',
-                                  nextServiceKm: '',
-                                  receiptPhoto: ''
-                                });
-                                setServiceModalOpen(true);
-                              }}
-                              className="flex items-center justify-center gap-2 bg-[#2563eb] text-white rounded-xl py-3 px-5 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-500/20 border-none cursor-pointer"
-                            >
-                              <Wrench className="w-3.5 h-3.5" /> Service Mobil
-                            </button>
+                            <div className="hidden">
+                              <button
+                                onClick={() => {
+                                  setSelectedVehicle(v);
+                                  setPajakForm({
+                                    payDate: new Date().toISOString().split('T')[0],
+                                    amount: '',
+                                    payerId: v.picId || '',
+                                    bankAccount: 'Kas Bank',
+                                    receiptPhoto: ''
+                                  });
+                                  setPajakModalOpen(true);
+                                }}
+                                className="flex items-center justify-center gap-2 bg-[#2563eb] text-white rounded-xl py-3 px-5 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-500/20 border-none cursor-pointer"
+                              >
+                                <DollarSign className="w-3.5 h-3.5" /> Bayar Pajak
+                              </button>
+                            </div>
+                            <div className="hidden">
+                              <button
+                                onClick={() => {
+                                  setSelectedVehicle(v);
+                                  setServiceForm({
+                                    serviceDate: new Date().toISOString().split('T')[0],
+                                    kmService: '',
+                                    amount: '',
+                                    servicerId: v.picId || '',
+                                    bankAccount: 'Kas Bank',
+                                    nextServiceDate: '',
+                                    nextServiceKm: '',
+                                    receiptPhoto: ''
+                                  });
+                                  setServiceModalOpen(true);
+                                }}
+                                className="flex items-center justify-center gap-2 bg-[#2563eb] text-white rounded-xl py-3 px-5 font-semibold hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-500/20 border-none cursor-pointer"
+                              >
+                                <Wrench className="w-3.5 h-3.5" /> Service Mobil
+                              </button>
+                            </div>
                           </div>
 
                           {/* Standard action buttons */}
                           <div className="flex items-center justify-between text-[10px] pt-2 border-t border-slate-100 mt-2">
-                            <button
-                              onClick={() => handleOpenView(v)}
-                              title="Detail & Riwayat"
-                              className="text-indigo-600 hover:text-indigo-800 bg-transparent border-none cursor-pointer flex items-center gap-1 font-bold mb-0 text-[11px]"
-                            >
-                              <Eye className="w-3.5 h-3.5" /> Detail & Riwayat
-                            </button>
+                            <div className="hidden">
+                              <button
+                                onClick={() => handleOpenView(v)}
+                                title="Detail & Riwayat"
+                                className="text-indigo-600 hover:text-indigo-800 bg-transparent border-none cursor-pointer flex items-center gap-1 font-bold mb-0 text-[11px]"
+                              >
+                                <Eye className="w-3.5 h-3.5" /> Detail & Riwayat
+                              </button>
+                            </div>
                             
-                            <div className="flex items-center gap-1">
+                            <div className="hidden flex items-center gap-1">
                               <button
                                 onClick={() => handleOpenEdit(v)}
                                 title="Ubah"
