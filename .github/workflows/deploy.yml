@@ -35,6 +35,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 65002
-        source: "./dist/*"
+        source: "dist/*"
         target: "public_html/apps/"
-        strip_components: 1
